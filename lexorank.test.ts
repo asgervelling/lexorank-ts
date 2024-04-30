@@ -1,52 +1,52 @@
 import { describe, it, expect } from "@jest/globals";
 
-import { insert } from "./lexorank";
+import * as lexorank from "./lexorank";
 
 describe("Rank", () => {
   it("Test success empty prev empty next", () => {
-    let { rank, ok } = insert("", "");
+    let { rank, ok } = lexorank.insert("", "");
     expect(rank).toStrictEqual("U");
     expect(ok).toStrictEqual(true);
   });
 
   it("Test success empty prev", () => {
-    let { rank, ok } = insert("", "2");
+    let { rank, ok } = lexorank.insert("", "2");
     expect(rank).toStrictEqual("1");
     expect(ok).toStrictEqual(true);
   });
 
   it("Test success empty next", () => {
-    let { rank, ok } = insert("x", "");
+    let { rank, ok } = lexorank.insert("x", "");
     expect(rank).toStrictEqual("y");
     expect(ok).toStrictEqual(true);
   });
 
   it("Test success new digit", () => {
-    let { rank, ok } = insert("aaaa", "aaab");
+    let { rank, ok } = lexorank.insert("aaaa", "aaab");
     expect(rank).toStrictEqual("aaaaU");
     expect(ok).toStrictEqual(true);
   });
 
   it("Test success mid value", () => {
-    let { rank, ok } = insert("aaaa", "aaac");
+    let { rank, ok } = lexorank.insert("aaaa", "aaac");
     expect(rank).toStrictEqual("aaab");
     expect(ok).toStrictEqual(true);
   });
 
   it("Test success new digit mid value", () => {
-    let { rank, ok } = insert("az", "b");
+    let { rank, ok } = lexorank.insert("az", "b");
     expect(rank).toStrictEqual("azU");
     expect(ok).toStrictEqual(true);
   });
 
   it("Test fail same prev next", () => {
-    let { rank, ok } = insert("aaaa", "aaaa");
+    let { rank, ok } = lexorank.insert("aaaa", "aaaa");
     expect(rank).toStrictEqual("aaaa");
     expect(ok).toStrictEqual(false);
   });
 
   it("Test fail adjacent", () => {
-    let { rank, ok } = insert("a", "a0");
+    let { rank, ok } = lexorank.insert("a", "a0");
     expect(rank).toStrictEqual("a");
     expect(ok).toStrictEqual(false);
   });
@@ -65,7 +65,7 @@ describe("Example", () => {
     // Move row C between row A and row B, without changing
     const db1 = {
       ...initialDb,
-      rowC: insert(initialDb["rowA"], initialDb["rowB"]).rank,
+      rowC: lexorank.insert(initialDb["rowA"], initialDb["rowB"]).rank,
     };
 
     // Row A and row B keep their orders of "a" and "c"
@@ -76,11 +76,11 @@ describe("Example", () => {
     expect(db1["rowC"]).toStrictEqual("b");
 
     // Even though the orders "a", "b" and "c" are already taken
-    // by rows A, C and B respectively, we can still insert new elements
+    // by rows A, C and B respectively, we can still lexorank.insert new elements
     // between them
     const db2 = {
       ...db1,
-      rowD: insert(db1["rowA"], db1["rowC"]).rank,
+      rowD: lexorank.insert(db1["rowA"], db1["rowC"]).rank,
     };
 
     // Rows D is a longer string than "a" or "b".

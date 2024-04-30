@@ -76,7 +76,7 @@ describe("Example", () => {
     expect(db1["rowC"]).toStrictEqual("b");
 
     // Even though the orders "a", "b" and "c" are already taken
-    // by rows A, C and B respectively, we can still lexorank.insert new elements
+    // by rows A, C and B respectively, we can still insert new elements
     // between them
     const db2 = {
       ...db1,

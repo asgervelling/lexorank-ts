@@ -11,35 +11,24 @@ export type Rank = {
   ok: boolean;
 };
 
-export type InsertFunction = (prev: string, next: string) => Rank;
+const MIN_CHAR = byte("0");
+const MAX_CHAR = byte("z");
 
-export function createInsertionFunction(
-  minChar: number,
-  maxChar: number
-): InsertFunction {
-  return (prev: string, next: string) => insert(prev, next, minChar, maxChar);
-}
-
-function insert(
-  prev: string,
-  next: string,
-  minChar: number,
-  maxChar: number
-): Rank {
+export function insert(prev: string, next: string): Rank {
   let [_prev, _next] = [prev, next];
   if (_prev === "") {
-    _prev = string(minChar);
+    _prev = string(MIN_CHAR);
   }
   if (_next === "") {
-    _next = string(maxChar);
+    _next = string(MAX_CHAR);
   }
 
   let rank = "";
   let i = 0;
 
   while (true) {
-    let prevChar: number = getChar(_prev, i, minChar);
-    let nextChar: number = getChar(_next, i, maxChar);
+    let prevChar: number = getChar(_prev, i, MIN_CHAR);
+    let nextChar: number = getChar(_next, i, MAX_CHAR);
 
     if (prevChar === nextChar) {
       rank += string(prevChar);
@@ -89,4 +78,46 @@ export function byte(char: string): number {
 
 function string(byte: number): string {
   return String.fromCharCode(byte);
+}
+
+console.log(insert("c", "d"))
+console.log(insert("cU", "cU"))
+console.log(insert("cU", "cV"))
+console.log(insert("bbb", "a"))
+
+
+/*
+Given the list ["A", "B", "C"],
+place a new element "D" at index 2.
+Then move the last element, "C", to index 1.
+Then move "D" to index 0.
+Should be:
+
+["A", "B", "C"]
+["A", "B", "D", "C"]
+["A", "C", "B", "D"]
+["D", "A", "C", "B"]
+*/
+
+// Example ordered data type
+type Thing = {
+  data: string;
+  order: Rank;
+}
+
+/**
+ * Insert t into ts at position i.
+ */
+function insertThing(t: Thing, ts: Thing[], i: number) {
+  const n = ts.length;
+  if (n === 0) {
+    return [t];
+  }
+  if (i < 0 || i > n - 1) {
+    throw new Error("Out of bounds");
+  }
+
+  const strings = ts.map((t) => t.data);
+  const inserted = [strings.slice(0, i)]
+  
 }

@@ -19,16 +19,16 @@ export function insert(prev: string, next: string): Rank {
   if (_prev === "") {
     _prev = string(MIN_CHAR);
   }
-  if (next === "") {
-    next = string(MAX_CHAR);
+  if (_next === "") {
+    _next = string(MAX_CHAR);
   }
 
   let rank = "";
   let i = 0;
 
   while (true) {
-    let prevChar: number = getChar(prev, i, MIN_CHAR);
-    let nextChar: number = getChar(next, i, MAX_CHAR);
+    let prevChar: number = getChar(_prev, i, MIN_CHAR);
+    let nextChar: number = getChar(_next, i, MAX_CHAR);
 
     if (prevChar === nextChar) {
       rank += string(prevChar);
@@ -47,9 +47,9 @@ export function insert(prev: string, next: string): Rank {
     break;
   }
 
-  if (rank >= next) {
+  if (rank >= _next) {
     return {
-      rank: prev,
+      rank: _prev,
       ok: false,
     };
   } else {

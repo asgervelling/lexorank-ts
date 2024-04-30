@@ -11,11 +11,10 @@ type Rank = {
   ok: boolean;
 };
 
-// Base 26 - the length of the alphabet
-const MIN_CHAR = byte("a");
+const MIN_CHAR = byte("0");
 const MAX_CHAR = byte("z");
 
-export function insert(prev: string, next: string) {
+export function insert(prev: string, next: string): Rank {
   let [_prev, _next] = [prev, next];
   if (_prev === "") {
     _prev = string(MIN_CHAR);

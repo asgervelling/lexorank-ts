@@ -80,44 +80,21 @@ function string(byte: number): string {
   return String.fromCharCode(byte);
 }
 
-console.log(insert("c", "d"))
-console.log(insert("cU", "cU"))
-console.log(insert("cU", "cV"))
-console.log(insert("bbb", "a"))
-
-
-/*
-Given the list ["A", "B", "C"],
-place a new element "D" at index 2.
-Then move the last element, "C", to index 1.
-Then move "D" to index 0.
-Should be:
-
-["A", "B", "C"]
-["A", "B", "D", "C"]
-["A", "C", "B", "D"]
-["D", "A", "C", "B"]
-*/
-
 // Example ordered data type
-type Thing = {
-  data: string;
-  order: Rank;
-}
+type Thing<T> = {
+  data: T;
+  order: string;
+};
 
-/**
- * Insert t into ts at position i.
- */
-function insertThing(t: Thing, ts: Thing[], i: number) {
-  const n = ts.length;
-  if (n === 0) {
-    return [t];
-  }
-  if (i < 0 || i > n - 1) {
-    throw new Error("Out of bounds");
-  }
+const defaultOrder = string(mid(MIN_CHAR, MAX_CHAR));
 
-  const strings = ts.map((t) => t.data);
-  const inserted = [strings.slice(0, i)]
-  
-}
+const a: Thing<string> = { data: "A", order: defaultOrder };
+const b: Thing<string> = { data: "B", order: insert(a.data, "").rank };
+const c: Thing<string> = { data: "C", order: insert("", "A").rank };
+const d: Thing<string> = { data: "D", order: insert("", "B").rank };
+
+const sorted = [a, b, c, d]
+  .sort((a, b) => byte(a.order) - byte(b.order))
+  .map((t) => t.data);
+
+console.log(sorted); // [ 'C', 'D', 'A', 'B' ]

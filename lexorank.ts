@@ -6,29 +6,40 @@
  * Lexorank implementation taken from here:
  * https://github.com/acadea/lexorank/blob/master/Lexorank.js
  */
-type Rank = {
+export type Rank = {
   rank: string;
   ok: boolean;
 };
 
-const MIN_CHAR = byte("0");
-const MAX_CHAR = byte("z");
+export type InsertFunction = (prev: string, next: string) => Rank;
 
-export function insert(prev: string, next: string): Rank {
+export function createInsertionFunction(
+  minChar: number,
+  maxChar: number
+): InsertFunction {
+  return (prev: string, next: string) => insert(prev, next, minChar, maxChar);
+}
+
+function insert(
+  prev: string,
+  next: string,
+  minChar: number,
+  maxChar: number
+): Rank {
   let [_prev, _next] = [prev, next];
   if (_prev === "") {
-    _prev = string(MIN_CHAR);
+    _prev = string(minChar);
   }
   if (_next === "") {
-    _next = string(MAX_CHAR);
+    _next = string(maxChar);
   }
 
   let rank = "";
   let i = 0;
 
   while (true) {
-    let prevChar: number = getChar(_prev, i, MIN_CHAR);
-    let nextChar: number = getChar(_next, i, MAX_CHAR);
+    let prevChar: number = getChar(_prev, i, minChar);
+    let nextChar: number = getChar(_next, i, maxChar);
 
     if (prevChar === nextChar) {
       rank += string(prevChar);
@@ -72,7 +83,7 @@ function getChar(s: string, i: number, defaultChar: number): number {
   }
 }
 
-function byte(char: string): number {
+export function byte(char: string): number {
   return char.charCodeAt(0);
 }
 

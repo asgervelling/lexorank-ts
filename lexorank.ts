@@ -11,6 +11,7 @@ export type Rank = {
   ok: boolean;
 };
 
+// Try setting them to "a" and "z"
 export const MIN_CHAR = byte("0");
 export const MAX_CHAR = byte("z");
 
@@ -80,11 +81,21 @@ export function string(byte: number): string {
   return String.fromCharCode(byte);
 }
 
-export function defaultRanks(n: number, min: number, max: number) {}
+export function defaultRanks(n: number): string[] {
+  function ranks(n: number, min: string, max: string): string[] {
+    if (n === 0) {
+      return [];
+    }
+    if (n === 1) {
+      return [insert(min, max).rank];
+    }
 
-console.log(insert("a", "z"))
-console.log(insert("a", "m"), insert("m", "z"))
-console.log(insert("a", "g"), insert("g", "s"), insert("s", "z"))
-console.log(insert("a", "d"), insert("d", "m"), insert("m", "v"), insert("v", "z"))
-console.log(insert("a", "b"), insert("b", "h"), insert("h", "q"), insert("q", "x"), insert("x", "z"))
-console.log(insert("a", "aU"), insert("aU", "e"), insert("e", "l"), insert("l", "t"), insert("t", "y"), insert("y", "z"))
+    const median = insert(min, max).rank;
+    const leftRanks = ranks(Math.ceil(n / 2), min, median);
+    const rightRanks = ranks(Math.floor(n / 2), median, max);
+
+    return [...leftRanks, ...rightRanks];
+  }
+
+  return ranks(n, string(MIN_CHAR), string(MAX_CHAR));
+}

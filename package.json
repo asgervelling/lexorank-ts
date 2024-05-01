@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node lexorank.ts",
+    "start": "ts-node example.ts",
     "test": "jest lexorank.test.ts"
   },
   "keywords": [],

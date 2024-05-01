@@ -80,3 +80,11 @@ export function string(byte: number): string {
   return String.fromCharCode(byte);
 }
 
+export function defaultRanks(n: number, min: number, max: number) {}
+
+console.log(insert("a", "z"))
+console.log(insert("a", "m"), insert("m", "z"))
+console.log(insert("a", "g"), insert("g", "s"), insert("s", "z"))
+console.log(insert("a", "d"), insert("d", "m"), insert("m", "v"), insert("v", "z"))
+console.log(insert("a", "b"), insert("b", "h"), insert("h", "q"), insert("q", "x"), insert("x", "z"))
+console.log(insert("a", "aU"), insert("aU", "e"), insert("e", "l"), insert("l", "t"), insert("t", "y"), insert("y", "z"))

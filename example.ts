@@ -17,6 +17,65 @@ function sortByOrder<T>(ts: Thing<T>[]) {
   });
 }
 
+function frebalance<T>(ts: Thing<T>[]) {
+  const n = ts.length;
+  if (n === 0) {
+    return [];
+  }
+  const sorted = sortByOrder(ts);
+  const dummyValue = sorted[0].data;
+  const asThing = (order: string): Thing<T> => ({ data: dummyValue, order });
+  const [min, max] = [
+    asThing(LR.string(LR.MIN_CHAR)),
+    asThing(LR.string(LR.MAX_CHAR)),
+  ];
+  return spreadOut([min, ...sorted, max], 0, ts.length - 1);
+
+  function spreadOut(ts: Thing<T>[], i: number, j: number) {
+    const n = j - i;
+  }
+}
+
+const dummyValue = "";
+const asThing = (order: string) => ({ data: dummyValue, order: order });
+const f: Thing<string> = asThing("aab");
+const g: Thing<string> = asThing("aac");
+const h: Thing<string> = asThing("x");
+const i: Thing<string> = asThing("y");
+const j: Thing<string> = asThing("z");
+
+const unbalanced = [f, g, h, i, j];
+const balanced = rebalance(unbalanced);
+
+console.log(unbalanced);
+console.log(balanced);
+
+export function rebalance<T>(ts: Thing<T>[]) {
+  function spaceOut(ts: Thing<T>[], lo: number, hi: number): Thing<T>[] {
+    console.log("spaceOut", LR.string(lo), LR.string(hi));
+    const n = hi - lo;
+    if (n === 0) return [];
+    if (n === 1) {
+      const rank = LR.insert(ts[lo].order, ts[hi].order).rank;
+      const t: Thing<T> = {
+        data: ts[0].data,
+        order: rank,
+      };
+      return [t];
+    }
+
+    const m = LR.mid(hi, lo);
+    return [...spaceOut(ts, lo, m), ...spaceOut(ts, m, hi)];
+  }
+
+  if (ts.length === 0) return [];
+
+  // Rebalance as if MIN_CHAR and MAX_CHAR were the first and last
+  // elements of the array, and then remove them.
+  // This way, there is breathing room at the beginning and end of the array
+  return spaceOut(ts, LR.MIN_CHAR, LR.MAX_CHAR);
+}
+
 /**
  * Insert a value at index i, making it a thing with an order.
  */
@@ -81,4 +140,6 @@ const l3 = insertValue(c, l2, 1);
 const l4 = insertValue(d, l3, 3);
 const l5 = insertValue(e, l4, 3);
 
-console.log(sortByOrder(l5)); // [ B, C, A, E, D ]
+// console.log(sortByOrder(l5)); // [ B, C, A, E, D ]
+
+// Rebalancing example

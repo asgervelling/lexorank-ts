@@ -77,9 +77,6 @@ function insertValue<T>(value: T, ts: Thing<T>[], i: number): Thing<T>[] {
 
 {
   // Example: Inserting things
-
-  // So far, the implementation does not take into account when a thing cannot be inserted
-  // between two other things. We'll get there soon enough
   const a = "A"; // A at index 0. L1: [ A ]
   const b = "B"; // B at index 0. L2: [ B, A ]
   const c = "C"; // C at index 1. L3: [ B, C, A ]

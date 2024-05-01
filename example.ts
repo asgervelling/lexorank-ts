@@ -6,7 +6,7 @@ type Thing<T> = {
   order: string;
 };
 
-const defaultOrder = LR.string(LR.mid(LR.MIN_CHAR, LR.MAX_CHAR));
+const defaultOrder = LR.insert(LR.string(LR.MIN_CHAR), LR.string(LR.MAX_CHAR));
 
 function sortByOrder<T>(ts: Thing<T>[]) {
   return [...ts].sort((a, b) => {

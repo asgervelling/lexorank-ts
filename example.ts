@@ -19,8 +19,8 @@ function sortByOrder<T>(ts: Thing<T>[]) {
 
 function rebalance<T>(ts: Thing<T>[]) {
   const n = ts.length;
-  const zip = <T, U>(as: T[], bs: U[]): [T, U][] =>
-    as.map((a, i) => [a, bs[i]]);
+  const zip = <T, U>(ts: T[], us: U[]): [T, U][] =>
+    ts.map((t, i) => [t, us[i]]);
   return zip(ts, LR.defaultRanks(n)).map(([t, rank]) => ({
     data: t.data,
     order: rank,
